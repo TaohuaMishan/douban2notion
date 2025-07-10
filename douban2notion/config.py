@@ -32,7 +32,7 @@ BOOK_ICON_URL = "https://www.notion.so/icons/book_gray.svg"
 
 
 movie_properties_type_dict = {
-    "电影名":TITLE,
+    "片名":TITLE,
     "短评":RICH_TEXT,
     # "ISBN":RICH_TEXT,
     # "链接":URL,
