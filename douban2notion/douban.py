@@ -16,20 +16,16 @@ from douban2notion.utils import get_icon
 from dotenv import load_dotenv
 load_dotenv()
 rating = {
-    1: "⭐️",
-    2: "⭐️⭐️",
-    3: "⭐️⭐️⭐️",
-    4: "⭐️⭐️⭐️⭐️",
-    5: "⭐️⭐️⭐️⭐️⭐️",
+    1: "1",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
 }
 movie_status = {
-    "mark": "想看",
-    "doing": "在看",
     "done": "已看",
 }
 book_status = {
-    "mark": "想读",
-    "doing": "在读",
     "done": "读过",
 }
 AUTH_TOKEN = os.getenv("AUTH_TOKEN")
@@ -95,12 +91,12 @@ def insert_movie(douban_name,notion_helper):
             print(result)
             continue
         subject = result.get("subject")
-        movie["电影名"] = subject.get("title")
+        movie["片名"] = subject.get("title")
         create_time = result.get("create_time")
         create_time = pendulum.parse(create_time,tz=utils.tz)
         #时间上传到Notion会丢掉秒的信息，这里直接将秒设置为0
         create_time = create_time.replace(second=0)
-        movie["日期"] = create_time.int_timestamp
+        movie["完成观看日期"] = create_time.int_timestamp
         movie["豆瓣链接"] = subject.get("url")
         movie["状态"] = movie_status.get(result.get("status"))
         if result.get("rating"):
@@ -110,7 +106,7 @@ def insert_movie(douban_name,notion_helper):
         if notion_movie_dict.get(movie.get("豆瓣链接")):
             notion_movive = notion_movie_dict.get(movie.get("豆瓣链接"))
             if (
-                notion_movive.get("日期") != movie.get("日期")
+                notion_movive.get("完成观看日期") != movie.get("日期")
                 or notion_movive.get("短评") != movie.get("短评")
                 or notion_movive.get("状态") != movie.get("状态")
                 or notion_movive.get("评分") != movie.get("评分")
