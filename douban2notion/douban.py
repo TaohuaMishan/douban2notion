@@ -25,7 +25,7 @@ rating = {
 movie_status = {
     "mark": "想看",
     "doing": "在看",
-    "done": "看过",
+    "done": "已看",
 }
 book_status = {
     "mark": "想读",
